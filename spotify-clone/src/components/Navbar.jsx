@@ -2,18 +2,22 @@ import React from "react";
 import { assets } from "../assets/assets";
 import CategorySelector from "./CategorySelector";
 import InstallApp from "./InstallApp";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const nav = useNavigate();
   return (
     <>
       <div className="w-full flex justify-between items-center font-bold">
         <div className="flex gap-2 items-center">
           <img
+            onClick={() => nav(-1)}
             className="w-8 rounded-2xl bg-black cursor-pointer p-2"
             src={assets.arrow_left}
             alt=""
           />
           <img
+            onClick={() => nav(1)}
             className="w-8 rounded-2xl bg-black cursor-pointer p-2"
             src={assets.arrow_right}
             alt=""
