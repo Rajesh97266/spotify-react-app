@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+
+import React, { useRef, useState, useCallback } from "react";
 import Navbar from "./Navbar";
 import { albumsData, songsData } from "../assets/assets";
 import AlbumItems from "./AlbumItems";
@@ -8,15 +9,30 @@ import SongItems from "./SongItems";
 const DisplayHome = () => {
   const albumScrollRef = useRef();
   const songScrollRef = useRef();
+  const [scrollInterval, setScrollInterval] = useState(null);
 
-  const scroll = (ref, direction) => {
-    if (ref.current) {
-      ref.current.scrollBy({
-        left: direction === "left" ? -300 : 300,
-        behavior: "smooth",
-      });
+  const startScroll = useCallback(
+    (ref, direction) => {
+      if (scrollInterval) clearInterval(scrollInterval);
+      const newInterval = setInterval(() => {
+        if (ref.current) {
+          ref.current.scrollBy({
+            left: direction === "left" ? -10 : 10,
+            behavior: "auto",
+          });
+        }
+      }, 10);
+      setScrollInterval(newInterval);
+    },
+    [scrollInterval]
+  );
+
+  const stopScroll = useCallback(() => {
+    if (scrollInterval) {
+      clearInterval(scrollInterval);
+      setScrollInterval(null);
     }
-  };
+  }, [scrollInterval]);
 
   return (
     <>
@@ -28,7 +44,9 @@ const DisplayHome = () => {
         <div className="relative">
           {/* Left Chevron Button */}
           <button
-            onClick={() => scroll(albumScrollRef, "left")}
+            onMouseDown={() => startScroll(albumScrollRef, "left")}
+            onMouseUp={stopScroll}
+            onMouseLeave={stopScroll}
             className="absolute z-10 left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-2 rounded-full hover:scale-110"
           >
             <ChevronLeft size={24} />
@@ -52,7 +70,9 @@ const DisplayHome = () => {
 
           {/* Right Chevron Button */}
           <button
-            onClick={() => scroll(albumScrollRef, "right")}
+            onMouseDown={() => startScroll(albumScrollRef, "right")}
+            onMouseUp={stopScroll}
+            onMouseLeave={stopScroll}
             className="absolute z-10 right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-2 rounded-full hover:scale-110"
           >
             <ChevronRight size={24} />
@@ -66,7 +86,9 @@ const DisplayHome = () => {
         <div className="relative">
           {/* Left Chevron Button */}
           <button
-            onClick={() => scroll(songScrollRef, "left")}
+            onMouseDown={() => startScroll(songScrollRef, "left")}
+            onMouseUp={stopScroll}
+            onMouseLeave={stopScroll}
             className="absolute z-10 left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-2 rounded-full hover:scale-110"
           >
             <ChevronLeft size={24} />
@@ -90,7 +112,9 @@ const DisplayHome = () => {
 
           {/* Right Chevron Button */}
           <button
-            onClick={() => scroll(songScrollRef, "right")}
+            onMouseDown={() => startScroll(songScrollRef, "right")}
+            onMouseUp={stopScroll}
+            onMouseLeave={stopScroll}
             className="absolute z-10 right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-2 rounded-full hover:scale-110"
           >
             <ChevronRight size={24} />
