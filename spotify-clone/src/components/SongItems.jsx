@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { PlayerContext } from "../context/PlayerContext";
 
 const SongItems = ({ name, desc, image, id }) => {
+ const { playTrackById } = useContext(PlayerContext);
   return (
-    <div className="min-w-[200px] max-w-[300px] p-2 px-3 rounded cursor-pointer transform transition duration-300 hover:scale-105 bg-[#ffffff08] hover:bg-[#ffffff15]">
+    <div onClick={()=>playTrackById(id)} className="min-w-[200px] max-w-[300px] p-2 px-3 rounded cursor-pointer transform transition duration-300 hover:scale-105 bg-[#ffffff08] hover:bg-[#ffffff15]">
       <img
         src={image}
         alt={name}

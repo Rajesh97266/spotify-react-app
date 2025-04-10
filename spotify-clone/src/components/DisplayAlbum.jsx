@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import { albumsData, assets, songsData } from "../assets/assets";
+import { PlayerContext } from "../context/PlayerContext";
 
 const DisplayAlbum = () => {
   const { id } = useParams();
   const albumDatalocal = albumsData[id];
- 
+ const { playTrackById } = useContext(PlayerContext);
 
   return (
     <>
@@ -48,6 +49,7 @@ const DisplayAlbum = () => {
       {songsData.map((item, index) => (
         <div
           key={index}
+          onClick={() => playTrackById(item.id)}
           className="grid grid-cols-3 sm:grid-cols-4 gap-3 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer "
         >
           <p className="text-white">
@@ -57,7 +59,7 @@ const DisplayAlbum = () => {
           </p>
           <p className="text-[15px]">{albumDatalocal.name}</p>
           <p className="text-[15px]">
-            {Math.floor(Math.random() * 10) + 1} days ago
+            3 days ago
           </p>
 
           <p className="text-[15px] text-center">{item.duration}</p>

@@ -1,14 +1,27 @@
-import React from "react";
-import { assets, songsData } from "../assets/assets";
+import React, { useContext } from "react";
+import { assets } from "../assets/assets";
+import { PlayerContext } from "../context/PlayerContext";
 
 const Player = () => {
+  const {
+    seekBar,
+    seekBg,
+    play,
+    pause,
+    playStatus,
+    track,
+    time,
+    seekBgClick,
+    playNext,
+    playPrevious,
+  } = useContext(PlayerContext);
   return (
     <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
       <div className="hidden lg:flex items-center gap-4">
-        <img className="w-12" src={songsData[0].image} alt="" />
+        <img className="w-12" src={track.image} alt="" />
         <div>
-          <p>{songsData[0].name}</p>
-          <p>{songsData[0].desc.slice(0, 16) + "..."}</p>
+          <p>{track.name}</p>
+          <p>{track.desc.slice(0, 16) + "..."}</p>
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 m-auto">
@@ -19,16 +32,29 @@ const Player = () => {
             alt=""
           />
           <img
+            onClick={playPrevious}
             className="w-4 cursor-pointer hover:scale-110"
             src={assets.prev_icon}
             alt=""
           />
+          {playStatus ? (
+            <img
+              onClick={pause}
+              className="w-4 cursor-pointer hover:scale-110"
+              src={assets.pause_icon}
+              alt=""
+            />
+          ) : (
+            <img
+              onClick={play}
+              className="w-4 cursor-pointer hover:scale-110"
+              src={assets.play_icon}
+              alt=""
+            />
+          )}
+
           <img
-            className="w-4 cursor-pointer hover:scale-110"
-            src={assets.play_icon}
-            alt=""
-          />
-          <img
+            onClick={playNext}
             className="w-4 cursor-pointer hover:scale-110"
             src={assets.next_icon}
             alt=""
@@ -40,11 +66,22 @@ const Player = () => {
           />
         </div>
         <div className="flex items-center gap-5">
-          <p>0.15</p>
-          <div className="w-[50vw] max-w-[400px] bg-gray-300 rounded-full cursor-pointer">
-            <hr className="h-1 border-none w-[50%] bg-green-800 rounded-full" />
+          <p>
+            {time.currentTime.minute}:{time.currentTime.second}
+          </p>
+          <div
+            ref={seekBg}
+            onClick={seekBgClick}
+            className="w-[50vw] max-w-[400px] bg-gray-300 rounded-full cursor-pointer"
+          >
+            <hr
+              ref={seekBar}
+              className="h-1 border-none w-[0%] bg-green-800 rounded-full"
+            />
           </div>
-          <p>3:35</p>
+          <p>
+            {time.totalTime.minute}:{time.totalTime.second}
+          </p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-2 opacity-75">
