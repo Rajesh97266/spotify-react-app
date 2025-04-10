@@ -5,8 +5,7 @@ import Display from "./Display";
 import { PlayerContext } from "../context/PlayerContext";
 
 const Home = () => {
-  const { audioRef , track  } = useContext(PlayerContext);
-
+  const { audioRef, track } = useContext(PlayerContext);
   return (
     <div className="h-screen bg-black">
       <div className="h-[90%] flex">
